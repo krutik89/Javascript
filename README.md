@@ -25,7 +25,7 @@
            let y = 15; // Error: Identifier 'y' has already been declared
 
        ```
- 3. **`const` (constant Variable)**
+  3. **`const` (constant Variable)**
      - **Scope**: `const` keyword has block scope. This means variable declared with `const` keyword are accesible within the block they are declared.
      - **Hoisting**: `const` keyword hoisted top of their scope but not initialized. This means accesing the variable before declaration will give reference error.
      - **Re-declaration and Re-assignment**: variable declared with `const` keyword cannot be re-declared or re-assigned after initial assignment. however for the `objects` and for the        `arrays` content still be modified.
@@ -36,4 +36,22 @@
            const obj = { key: "value" };
            obj.key = "newValue"; // Allowed, modifying the object property
        ```
+# Scope in Javscript
+  1. **Global Scope**: any variable declared outside function or block has global scope. This means that variable are accesible anywhere in code.
+  2. **Function Scope**: varibale declared with `var` keyword inside function has function scope. This means that variable is accesible in only that function.
+  3. **Block Scope**: variable declared using `let` and `const` keyword in block `{}` has block scope. This means variable is accesible within only that block.
+
+# Hoisting
+  Hoisting is default behaviour of javascript to move the declaration top of their scope. `var` keyword is hoisted and initialized with `undefined`. `let` and `const` keyword hoisted     but not initialized. 
+
+# Shadowing
+  The variable can be `shadowed` if variable with same name declared in different scope. if variable declared in inner block (close to execution context) will shadow the variable      
+  declared in outer block.
+
+# Best practices
+  - use `const` and `let` keyword to avoid scope and hoisting issue.
+  - use `const` keyword if value is not gonna change and `let` if value gonna change.
+  - use meaningful variable name to enhace code readability.
+  - follow consistent naming convention, like camelCase
+
 
