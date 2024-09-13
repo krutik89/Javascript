@@ -54,4 +54,32 @@
   - use meaningful variable name to enhace code readability.
   - follow consistent naming convention, like camelCase
 
+# Pseudocode for Using Variables
+
+  ```javascript
+      // Declare a global variable using var
+      var globalVar = "I'm global";
+
+      // Function to demonstrate function-scoped variable
+      function demonstrateVar() {
+        var functionScopedVar = "I'm function-scoped"; 
+        console.log(functionScopedVar); // Outputs: I'm function-scoped
+      }
+
+      // Block to demonstrate block-scoped variables
+      if (condition) {
+        let blockScopedLet = "I'm block-scoped";
+        const blockScopedConst = "I'm also block-scoped";
+    
+        console.log(blockScopedLet); // Outputs: I'm block-scoped
+        console.log(blockScopedConst); // Outputs: I'm also block-scoped
+      }
+
+      // Hoisting example
+      console.log(hoistedVar); // Outputs: undefined
+      var hoistedVar = "I'm hoisted";
+
+      // Trying to access block-scoped variable outside the block
+      console.log(blockScopedLet); // Error: blockScopedLet is not defined
+  ```  
 
