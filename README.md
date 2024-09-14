@@ -81,5 +81,33 @@
 
       // Trying to access block-scoped variable outside the block
       console.log(blockScopedLet); // Error: blockScopedLet is not defined
-  ```  
+  ```
+
+# Data Types
+  1. **Primitive Data Types** <br>
+     Primitive data types are the most basic data type and represents single value. They are immutable in nature, means once value is assigned it can't be changed.
+     Primitive Data Types has following sub types;
+     1. **Number**: Number represents both integer and floating point numbers. example, `42` and `3.14` Javascript doesn't distinguish between Integer and Floating-Point numbers they           both treated as Number.
+     2. **String**: Strings are the sequence of characters. Strings are used to store text and are enclosed in single quotes `''`, double quotes `""` or backticks ``. example `"Hello"`
+     3. **Boolean**: Boolean represent logical entity value `true` or `false`.
+     4. **Undefined**: when variable is declared without initialiaztion it's automically assigned `undefined` value.
+     5. **Null**: Null is intentional absence of value. it is explicitly assigned to indicate that varibale has no value.
+     6. **Symbol**: Symbol is unique and immutable value. it is oftnely used as object property keys to avoid same property name collision. example, `Symbol('unique')`.
+     7. **bigInt**: Represents integers with arbitrary precision, useful for handling very large integers. Example: `1234567890123456789012345678901234567890n`.
+    
+     **Notes** <br>
+     1. **Type Coercion With `null` and `undefined`** <br>
+       - using `undefined` with number result is in `NaN` value. example 5+`undefined` will return `NaN`.
+       - `null` is treated as `0` in arithmetic operation. example 5+`null` will return `5`.
+     2. **BigInt and Number Interaction**: <br>
+       - `BigInt` cannot be directly mixed with `number` in arithmetic operation. `5n + 1` is valid but will throw `TypeError`.
+     3. **String Conversion** <br>
+       - when concatenating `number` and `string`, The `number` is converted to `string` example `5 + '5'` will return `55`.
+     4. **Symbol Uniqueness** <b>
+       - Symbols are unique and can't be replicated. Even if we create symbol with same description it will not be equal to original symbol.
+
+  2. **Non-Primitive Data Types** <br>
+     Non-Primitive data types are mutable in nature. strored as reference. operations can change original value.
+
+     1. **Objects** <br>
 
