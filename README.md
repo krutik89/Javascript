@@ -103,11 +103,75 @@
        - `BigInt` cannot be directly mixed with `number` in arithmetic operation. `5n + 1` is valid but will throw `TypeError`.
      3. **String Conversion** <br>
        - when concatenating `number` and `string`, The `number` is converted to `string` example `5 + '5'` will return `55`.
-     4. **Symbol Uniqueness** <b>
+     4. **Symbol Uniqueness** <br>
        - Symbols are unique and can't be replicated. Even if we create symbol with same description it will not be equal to original symbol.
 
   2. **Non-Primitive Data Types** <br>
      Non-Primitive data types are mutable in nature. strored as reference. operations can change original value.
 
      1. **Objects** <br>
+        In Javascript, object is a collection of properties, where each property is key-value pair. object can hold multiple data types, including function and other objects.
+        - Creating an Object
+          ```javascript
 
+             const person = {
+             name: 'Alice',
+             age: 30,
+             greet() {
+               return `Hello, my name is ${this.name}`;
+             }
+            };
+
+          ```
+        - Accessing and Modifying Object
+          ```javascript
+            console.log(person.name); // Alice
+            person.age = 31;
+            console.log(person['age']); // 31
+
+          ```
+
+        - Adding New Properties
+          ```javascript
+             person.job = 'Engineer';
+          ```
+
+        - Deleting Properties
+          ```javascript
+             delete person.job;
+          ```
+     2. **Built In Objects** <br>
+        Javascript provides several built in projects as following:
+
+        - **Object**: The base object from which all objects inherit. <br>
+          ```javascript
+             const obj = new Object();
+          ```
+        - **Array**: For storing ordered collections.
+          ```javascript
+             const numbers = [1, 2, 3];
+          ```
+        - **String**: For manipulating text.
+          ```javascript
+            const str = 'Hello';
+          ```
+        - **Number**: For Numeric Operations.
+          ```javascript
+             const num = 123;
+          ```
+        - **Boolean**: For logical values.
+          ```javascript
+             const flag = true;
+          ```
+        - **Date**: For working with dates and times.
+          ```javascript
+             const date = new Date();
+          ```
+        - **RegExp**: for pattern matching in string.
+          ```javascript
+             const pattern = /ab+c/;
+          ```
+        - **Error**: For handling errors.
+          ```javascript
+             const error = new Error('Something went wrong');
+          ```
