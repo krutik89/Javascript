@@ -175,3 +175,68 @@
           ```javascript
              const error = new Error('Something went wrong');
           ```
+     3. **Prototypal Inheritance** <br>
+        Prototypal Inheritance allows objects to innherit properties from other objects. every object has prototype from which it inherits methods and properties.
+        - Prototype Chain:
+          Every object in JavaScript has a prototype. When you access a property or method on an object, JavaScript first looks at the object itself. If it doesn’t find the property,            it looks up the prototype chain, starting from the object's prototype and continuing up the chain until it reaches Object.prototype (which is the end of the chain).
+
+
+          ```javascript
+             function Animal(name) {
+               this.name = name;
+             }
+
+             Animal.prototype.speak = function() {
+                  console.log(`${this.name} makes a noise.`);
+             };
+
+             const dog = new Animal('Rex');
+             dog.speak(); // Rex makes a noise.
+          ```
+        - Inheriting from Prototypes:
+          ```javascript
+             function Dog(name, breed) {
+                Animal.call(this, name);
+                this.breed = breed;
+             }
+
+             Dog.prototype = Object.create(Animal.prototype);
+             Dog.prototype.constructor = Dog;
+
+             Dog.prototype.bark = function() {
+                console.log(`${this.name} barks.`);
+             };
+
+             const myDog = new Dog('Buddy', 'Golden Retriever');
+             myDog.speak(); // Buddy makes a noise.
+             myDog.bark(); // Buddy barks.
+
+          ```
+      4. **Object Prototype** <br>
+         Prototype of an object is another object from which it inherits properties. this allows to create shared properties and methods.
+         - Accessing Prototype
+           ```javascript
+              const obj = {};
+              console.log(Object.getPrototypeOf(obj)); // Logs the prototype of obj
+           ```
+           
+         - **Setting Prototype**
+           ```javascript
+              const proto = { greet: 'Hello' };
+              const obj = Object.create(proto);
+              console.log(obj.greet); // Hello
+           ```
+         - **Prototype Property**
+           ```javascript
+              function Person(name) {
+                 this.name = name;
+              }
+
+              Person.prototype.sayHello = function() {
+                return `Hello, ${this.name}`;
+              };
+
+              const person = new Person('Alice');
+              console.log(person.sayHello()); // Hello, Alice
+
+           ```
