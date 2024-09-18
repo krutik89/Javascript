@@ -240,3 +240,46 @@
               console.log(person.sayHello()); // Hello, Alice
 
            ```
+# `typeof` Operator
+   `typeof` operator is used to determine type of variable or expression. it returns string representig type of operand. typeof is useful for debugging and type checking in javascript.
+   ```javascript
+      // Primitive types
+      let num: number = 42;
+      let str: string = 'Hello';
+      let bool: boolean = true;
+      let undef: undefined;
+      let sym: symbol = Symbol('id');
+      let big: bigint = 1234567890123456789012345678901234567890n;
+      
+      // Object types
+      let obj: object = { name: 'Alice' };
+      let arr: object = [1, 2, 3];
+      let func: Function = function() {};
+      let nothing: null = null;
+      
+      // Type checks
+      console.log(typeof num); // "number"
+      console.log(typeof str); // "string"
+      console.log(typeof bool); // "boolean"
+      console.log(typeof undef); // "undefined"
+      console.log(typeof sym); // "symbol"
+      console.log(typeof big); // "bigint"
+      console.log(typeof obj); // "object"
+      console.log(typeof arr); // "object"
+      console.log(typeof func); // "function"
+      console.log(typeof nothing); // "object"
+  ```
+
+  **Notes** <br>
+  1. Arrays <br>
+     `typeof` [1,2,3] return `object` not `array`. To check if variable is an array use `Array.isArray()`.
+
+  2. `null` <br>
+     `typeof` null is `object`.
+  3. Function <br>
+     `typeof` function is `function` but technically it is an array.
+  4. Undefined <br>
+     variables that are not initialized return `undefined`.
+  5. Symbol and bigInt <br>
+     `typeof` Symbols returns `Symbol` and `typeof` bigInt return `bigInt`.
+  
