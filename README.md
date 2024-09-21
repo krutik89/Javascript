@@ -282,4 +282,57 @@
      variables that are not initialized return `undefined`.
   5. Symbol and bigInt <br>
      `typeof` Symbols returns `Symbol` and `typeof` bigInt return `bigInt`.
-  
+
+# Type Casting
+  In Javascript **Type Casting** is the process to converts a value from one data type to another. It is necessary as javascript is **dynamically typed** langugae, menas data type of    variable determines at runtime and can change as needed
+
+  **Type Conversion vs Type Coercion**
+  1. **Type Conversion** (Explicitly Type Casting) <br>
+     when programmer manually converts one type into another using built in javascript functions.
+
+     **Examples of Type Conversion** <br>
+     ```javascript
+        // Number to String
+        let num = 42;
+        let str = String(num); // Explicitly converts the number to a string
+        console.log(typeof str); // Outputs: "string"
+        
+        // String to Number
+        let strNum = "123";
+        let convertedNum = Number(strNum); // Explicit conversion to number
+        console.log(typeof convertedNum); // Outputs: "number"
+        
+        // Boolean to Number
+        console.log(Number(true)); // Outputs: 1
+        console.log(Number(false)); // Outputs: 0
+
+     ```
+     
+  3. **Type Coercion** (Implicitly Type Casting) <br>
+     This happens automatically when javascript **Implicitly** converts one type to another to perform an operation.
+     ```javascript
+        // String concatenation due to coercion
+        console.log(5 + "5"); // Outputs: "55" (Number 5 is coerced to a string)
+        console.log(true + 1); // Outputs: 2 (Boolean true is coerced to 1)
+        console.log(null + 5); // Outputs: 5 (null is coerced to 0)
+        console.log(undefined + 5); // Outputs: NaN (undefined is coerced to NaN)
+
+     ```
+
+  4. **Common Javascript Type Conversions** <br>
+     - **String** <br>
+       you can convert any value to string by using String() or concatenating any value with empty string.
+
+       **Example** <br>
+       ```javascript
+          let num = 100;
+          let str = String(num); // Explicit conversion to string
+          console.log(typeof str); // "string"
+          
+          let implicitStr = 100 + ""; // Implicit conversion to string via concatenation
+          console.log(typeof implicitStr); // "string"
+
+       ```
+
+     - **Number** <br>
+       values can be converted to number using **Number()** function
