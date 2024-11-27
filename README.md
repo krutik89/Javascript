@@ -336,3 +336,104 @@
 
      - **Number** <br>
        values can be converted to number using **Number()** function
+
+# Data Structures
+  1. **Keyed Collections** <br>
+     - **Map** <br>
+       `Map` is collection key-value pairs where key can be of any type including functions and objects.
+
+       **Key Features**
+         1. Maintains Insertion Order
+         2. Provides efficient retrieval (has(),get(),set())
+         3. Iterated Using `for...of, forEach`
+      **Example**
+        ```javascript
+           let map = new Map();
+           map.set('name', 'John');
+           map.set(123, 'ID');
+           console.log(map.get('name')); // Output: John
+        ```
+     - **WeakMap** <br>
+       `WeakMap` is similar to `Map` but only accepts Objects as key and doesn't prevent garbage collection.
+
+       **Example**
+       ```javascript
+          let weakMap = new WeakMap();
+          let obj = {};
+          weakMap.set(obj, 'Value');
+          console.log(weakMap.get(obj)); // Output: Value
+      ```
+     - **set** <br>
+       `set` stores unqiue values of any type
+       **key features**
+        1. order of values based on insertion.
+        2. useful for filtering duplicates in array.
+
+       ```javascript
+          let set = new Set([1, 2, 2, 3]);
+          console.log(set.size); // Output: 3
+       ```
+     - **WeakSet** <br>
+        `WeakSet` is same as `set` but only allows object to add and doesn't prevent garbage collection
+       **key features**
+        1. prevent memory leaks.
+
+       **Example**
+       ```javascript
+          let weakSet = new WeakSet();
+          let obj = {};
+          weakSet.add(obj);
+       ```
+
+      **Behaviour In Map**
+        1. In `Map` keys are **strongly referenced** means no other part of program references key, it will remain in memory as long as `Map` holds it.
+        2. Example:
+           ```Javascript
+              let map = new Map();
+              let obj = { key: "value" };
+              map.set(obj, "data");
+
+              // Even if `obj` is not used anywhere else, it stays in memory
+              obj = null;  // Map keeps a strong reference, so the key is not garbage collected
+              console.log(map.size); // Output: 1
+           ```
+    
+       **Behaviour In WeakMap**
+       1. In `WeakMap` keys are **weakly referenced** which means if an object key is no longer referenced anywhere it will be garbage collected and will be removed from the map.
+       2. Example:
+         ```Javascript
+            let weakMap = new WeakMap();
+            let obj = { key: "value" };
+            weakMap.set(obj, "data");
+
+            // Once `obj` is no longer referenced, it can be garbage collected
+            obj = null;  // The key-value pair is automatically removed from WeakMap
+            console.log(weakMap.has(obj)); // Output: false
+         ```
+   2. **Structured Data**
+      1. **JSON**
+         JSON is text-based format that represents structured data commonly used for APIs and Data Transfer
+         **Key Features**
+           1. Easily converted into Javascript Objects and JSON Strings
+           2. Methods: JSON.stringify() and JSON.parse()
+
+         **Example**
+         ```Javascript
+            let obj = { name: 'Alice', age: 25 };
+            let jsonString = JSON.stringify(obj); // Converts object to JSON string
+            console.log(jsonString); // Output: {"name":"Alice","age":25}
+            let parsedObj = JSON.parse(jsonString); // Converts JSON string back to object
+         ```
+   3. **Indexed Collections**
+
+      1. **Arrays**
+         Array stores indexed elements with each item accessible by numeric indices.
+
+         **Key Features**
+           1. supports various methods (Pop,Push,filter,map) etc
+           2. can store any data type.
+
+      2. **Typed Arrays**
+          Typed Arrays provide a way to work with binary data efficiently.         
+         
+
