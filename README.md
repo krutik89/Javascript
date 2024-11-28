@@ -436,4 +436,30 @@
       2. **Typed Arrays**
           Typed Arrays provide a way to work with binary data efficiently.         
          
+# Equality Comparisons
+  Equality comparison is a process to determine whether two variables have identical values. <br>
+  1. **Value Comparison Operators** <br>
+     - == (Loosely Equality) <br>
+       `==` operator does the type conversion of the operands before comparison.<br>
+       The behavior of performing loose equality using `==` is as follows:<br>
+       - If the operands have the same values they are compared as follows:<br>
+         - `object`: returns `true` only if both operands are referenced to the same object.<br>
+         **Example**:
+         
+          ```javascript
+             let map = new Map();
+             map.set('name', 'John');
+             map.set(123, 'ID');
+             console.log(map.get('name')); // Output: John
+          ```
+           - `string`: return `true` only if both operands have the same number of characters in the same order.
+           - `Number`: return `true` only if both operands have the same values, +0 and -0 are treated as the same.<be>
+                       If either operand is `NaN`, it returns `false` so NaN never equals to NaN
+           - `boolean`: return `true` if both operands are `true` or both are `false`.
+           - `symbol`: return `true` if both operands referenced the same symbol.
+     - === (Strict Equality) <br>
+       - Strict equality (===) compares operands for both value and type equality.
+       - Strict equality does not perform type coercion. If the operands are of different types, it returns false.
+     - Object.is() <br>
+       `Object.is()` does no type conversion and no special handling for NaN, -0, and +0 (giving it the same behavior as === except on those special numeric values).
 
