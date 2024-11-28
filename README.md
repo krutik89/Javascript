@@ -463,3 +463,27 @@
      - Object.is() <br>
        `Object.is()` does no type conversion and no special handling for NaN, -0, and +0 (giving it the same behavior as === except on those special numeric values).
 
+# Loops and Iteration
+  Loops provide a mechanism for iterating over a block of code repeatedly. <br>
+  This is analogous to instructing a computer to perform a specific task a predefined number of times.
+
+  javascript offers a different kind of loops but all are essentially doing the same thing they repeat the same action a number of times.
+
+  1. **For** <br>
+     `For` loop repeats action until a specified condition evaluates false.<br>
+     **Example**:
+     ```Javascript
+        for(let i=1;i<5;i++){
+          console.log(`repeated action ${i} time`);
+        }
+        /*
+          repeated action 1 time
+          repeated action 2 time
+          repeated action 3 time
+          repeated action 4 time
+         */
+     ```
+  3. **do...while** <br>
+     The `do-while` loop is a looping construct that executes a block of code at least once.<br>
+     It then repeatedly evaluates a specified condition. If the condition is false, the loop  terminates.<br>
+     Unlike the `while` loop, the `do-while` loop guarantees that the code block executes at least once, even if the condition is initially false.
