@@ -487,3 +487,78 @@
      The `do-while` loop is a looping construct that executes a block of code at least once.<br>
      It then repeatedly evaluates a specified condition. If the condition is false, the loop  terminates.<br>
      Unlike the `while` loop, the `do-while` loop guarantees that the code block executes at least once, even if the condition is initially false.
+     **Example**
+     ```Javascript
+        let result = '';
+        let i = 0;
+
+        do {
+          i = i + 1;
+          result = result + i;
+        } while (i < 5);
+
+        console.log(result);
+        // Expected output: "12345"
+     ```
+  4. **while** <br>
+     - The `while` loop repeatedly executes a block of code as long as a specified condition remains true. <br>
+     - The `while` loop evaluates the condition before executing the code block. If the condition is false initially, the code block is never executed. <br>
+     **Example**
+       ```Javascript
+          let n = 0;
+
+          while (n < 3) {
+            n++;
+          }
+
+         console.log(n);
+         // Expected output: 3
+      ```
+  5. **For...of** 
+     - The JavaScript for of statement loops through the values of an iterable object.<br>
+     - It lets you loop over iterable data structures such as Arrays, Strings, Maps, NodeLists, and more <br>
+     **Example**
+     ```Javascript
+        const arr = [1,2,3,4];
+        for(let number of arr){
+           console.log(number);
+        }
+     ```
+     - To print the index using a for...of loop in JavaScript, you can use the entries() method:
+     ```Javascript
+        const numbers = [10, 20, 30, 40];
+
+        for (const [index, value] of numbers.entries()) {
+             console.log(`Index: ${index}, Value: ${value}`);
+        }
+     ```
+
+  6. **For...in**<br>
+     The JavaScript `for in` statement loops through the properties of an Object. <br>
+     ```Javascript
+        const object = {name:"krutik",age:25,role:"frontend developer"};
+        for(let key in object){
+           console.log(key, object[key])
+        }
+     ```
+     The `For...in` loop can also iterate over the array.
+
+  7. **break** <br>
+     The break statement "jumps out" of a loop.
+     ```Javascript
+        for (let i = 0; i < 10; i++) {
+          if (i === 3) { break; }
+        }
+     ```
+     In the example above, the `break` statement ends the loop ("breaks" the loop) when the loop counter (i) is 3.
+  
+  8. **continue** <br>
+     The `continue` statement breaks one iteration (in the loop), if a specified condition occurs, and continues with the next iteration in the loop. <br>
+     This example skips the value of 3:
+     ```Javascript
+        for (let i = 0; i < 10; i++) {
+          if (i === 3) { continue; }
+        }
+     ```
+
+# 
