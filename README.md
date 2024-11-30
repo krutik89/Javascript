@@ -1487,7 +1487,7 @@ observer.observe(element);
 </script>
 ```
 
-# **JavaScript Strict Mode: A Complete Guide with Examples**
+# **JavaScript Strict Mode
 
 JavaScript **Strict Mode** is a feature introduced in ECMAScript 5 (ES5) that helps you write cleaner and more robust code by enforcing stricter parsing and error handling. It eliminates some silent errors, improves performance, and ensures better security.
 
