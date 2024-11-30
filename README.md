@@ -1720,3 +1720,5 @@ nonStrictFunction();
 Strict mode can slightly improve performance in some cases because:
 1. It allows the JavaScript engine to optimize code more effectively.
 2. It eliminates the need for certain checks, such as handling accidental global variables.
+
+
