@@ -1486,3 +1486,237 @@ observer.observe(element);
     });
 </script>
 ```
+
+# **JavaScript Strict Mode: A Complete Guide with Examples**
+
+JavaScript **Strict Mode** is a feature introduced in ECMAScript 5 (ES5) that helps you write cleaner and more robust code by enforcing stricter parsing and error handling. It eliminates some silent errors, improves performance, and ensures better security.
+
+---
+
+## **1. Enabling Strict Mode**
+
+Strict mode can be enabled in two ways:
+1. **Globally:** For the entire script.
+2. **Locally:** Within a specific function.
+
+### **1.1 Enabling Globally**
+Add `"use strict";` at the beginning of a script file.
+
+```javascript
+"use strict";
+x = 10; // Error: x is not defined
+console.log(x);
+```
+
+### **1.2 Enabling Locally**
+Place `"use strict";` inside a function to restrict it only to that function.
+
+```javascript
+function strictFunction() {
+    "use strict";
+    y = 20; // Error: y is not defined
+}
+strictFunction();
+```
+
+---
+
+## **2. Features and Benefits of Strict Mode**
+
+### **2.1 Prevents Usage of Undeclared Variables**
+In non-strict mode, assigning to an undeclared variable automatically creates it as a global variable. Strict mode eliminates this.
+
+```javascript
+"use strict";
+x = 10; // Error: x is not defined
+```
+
+---
+
+### **2.2 Prevents Duplicates in Function Parameters**
+Strict mode disallows duplicate parameter names, which can cause ambiguity.
+
+```javascript
+"use strict";
+function add(a, a) { // Error: Duplicate parameter name not allowed
+    return a + a;
+}
+```
+
+---
+
+### **2.3 Eliminates Silent Errors**
+Some JavaScript errors fail silently in non-strict mode. Strict mode throws explicit errors.
+
+**Example: Assigning to a non-writable property**
+```javascript
+"use strict";
+const obj = {};
+Object.defineProperty(obj, "prop", { value: 42, writable: false });
+
+obj.prop = 100; // Error: Cannot assign to read-only property 'prop'
+```
+
+---
+
+### **2.4 Prevents Deletion of Non-Deletable Properties**
+In strict mode, you cannot delete properties that are not configurable.
+
+```javascript
+"use strict";
+delete Object.prototype; // Error: Cannot delete 'prototype' property
+```
+
+---
+
+### **2.5 Requires Secure `this` Binding**
+In strict mode, `this` inside a function defaults to `undefined` instead of the global object.
+
+```javascript
+"use strict";
+function showThis() {
+    console.log(this); // Output: undefined
+}
+showThis();
+```
+
+---
+
+### **2.6 Restricts the Use of Reserved Keywords**
+Strict mode reserves certain keywords for future JavaScript versions, such as `implements`, `interface`, and `package`.
+
+```javascript
+"use strict";
+const package = "strict mode"; // Error: Unexpected strict mode reserved word
+```
+
+---
+
+## **3. Common Use Cases of Strict Mode**
+
+### **3.1 Debugging Errors**
+Strict mode helps identify potential bugs early, such as accidental global variable creation.
+
+```javascript
+"use strict";
+function calculate() {
+    result = 42; // Error: 'result' is not defined
+    return result;
+}
+calculate();
+```
+
+---
+
+### **3.2 Securing Code**
+Strict mode ensures secure coding practices by preventing `this` from pointing to the global object.
+
+```javascript
+"use strict";
+function secureFunction() {
+    console.log(this); // Output: undefined
+}
+secureFunction();
+```
+
+---
+
+### **3.3 Writing Modern JavaScript**
+Strict mode aligns with modern ECMAScript standards and is often implicitly enabled in ES6 modules.
+
+---
+
+## **4. Restrictions Imposed by Strict Mode**
+
+### **4.1 No Octal Literals**
+Strict mode disallows the use of octal literals (numbers starting with `0`).
+
+```javascript
+"use strict";
+const num = 010; // Error: Octal literals are not allowed
+```
+
+### **4.2 No `with` Statement**
+The `with` statement is disallowed because it makes code harder to understand and debug.
+
+```javascript
+"use strict";
+with (Math) { // Error: 'with' statement is not allowed
+    console.log(sqrt(16));
+}
+```
+
+---
+
+### **4.3 Prevents `eval` from Introducing Variables**
+In strict mode, variables declared inside `eval` do not leak into the surrounding scope.
+
+```javascript
+"use strict";
+eval("var a = 5;");
+console.log(a); // Error: a is not defined
+```
+
+---
+
+## **5. When to Use Strict Mode**
+1. When writing **secure applications** to avoid accidental global variable creation.
+2. For **debugging and cleaner code**, as strict mode surfaces silent errors.
+3. To ensure **modern JavaScript compatibility** and follow best practices.
+4. When working with **third-party libraries** that may conflict with your code.
+
+---
+
+## **6. Example: Combining Strict Mode with Functions**
+
+**Example 1: Securing a Function**
+```javascript
+function strictSum(a, b) {
+    "use strict";
+    return a + b;
+}
+console.log(strictSum(5, 10)); // Output: 15
+```
+
+**Example 2: Debugging Errors**
+```javascript
+"use strict";
+function debug() {
+    x = 100; // Error: x is not defined
+}
+debug();
+```
+
+---
+
+## **7. Strict Mode in ES6 Modules**
+By default, ES6 modules (`import`/`export`) are in strict mode. You do not need to manually enable it.
+
+**Example: ES6 Module (auto strict mode)**
+```javascript
+export const greeting = "Hello!";
+console.log(greeting);
+```
+
+---
+
+## **8. Disabling Strict Mode**
+If you need to use non-strict mode within strict code, wrap the non-strict code in a function without `"use strict";`.
+
+**Example: Mixing Modes**
+```javascript
+"use strict";
+function nonStrictFunction() {
+    // Non-strict mode
+    x = 42; // Works here
+    console.log(x);
+}
+nonStrictFunction();
+```
+
+---
+
+## **9. Strict Mode and Performance**
+Strict mode can slightly improve performance in some cases because:
+1. It allows the JavaScript engine to optimize code more effectively.
+2. It eliminates the need for certain checks, such as handling accidental global variables.
