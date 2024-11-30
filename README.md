@@ -1218,3 +1218,271 @@ console.log(square(5)); // Fetching from cache; Output: 25
 | **Focus**               | Determines how variables are resolved.        | Enables persistent access to variables.     |
 | **When It Happens**     | At the time of writing the code.              | At the time of execution.                   |
 | **Example Usage**       | Resolving variable references.                | Maintaining private variables or states.    |
+
+
+# **Complete Guide to JavaScript Web APIs with Examples**
+
+JavaScript Web APIs are built-in interfaces provided by browsers to enable developers to interact with the browser environment and enhance web applications. These APIs allow you to manipulate the DOM, handle events, work with multimedia, make network requests, and much more.
+
+---
+
+## **Categories of Web APIs**
+
+### 1. **Document Object Model (DOM) APIs**
+   - Access and manipulate HTML and CSS.
+   - Examples: `document`, `element`, `querySelector`.
+
+### 2. **Browser APIs**
+   - Enable browser-specific functionality.
+   - Examples: `window`, `localStorage`, `sessionStorage`.
+
+### 3. **Network APIs**
+   - Handle HTTP requests.
+   - Examples: `fetch`, `XMLHttpRequest`, `WebSocket`.
+
+### 4. **Multimedia APIs**
+   - Work with audio, video, and streams.
+   - Examples: `MediaStream`, `Canvas`.
+
+### 5. **Geolocation API**
+   - Retrieve geographical location.
+
+### 6. **Other APIs**
+   - Timers (`setTimeout`, `setInterval`), Clipboard API, Notifications, etc.
+
+---
+
+## **Detailed Guide with Examples**
+
+### **1. DOM Manipulation API**
+
+#### **Accessing Elements**
+```javascript
+const heading = document.querySelector("h1"); // Select the first <h1>
+console.log(heading.textContent);
+```
+
+#### **Modifying Elements**
+```javascript
+const heading = document.querySelector("h1");
+heading.textContent = "Hello, Web APIs!"; // Change text
+heading.style.color = "blue"; // Change CSS
+```
+
+#### **Creating and Appending Elements**
+```javascript
+const newDiv = document.createElement("div");
+newDiv.textContent = "I am a new div!";
+document.body.appendChild(newDiv);
+```
+
+---
+
+### **2. Browser APIs**
+
+#### **Working with Local Storage**
+Store, retrieve, and delete data from the browser’s local storage.
+```javascript
+// Set an item
+localStorage.setItem("username", "JohnDoe");
+
+// Get the item
+const username = localStorage.getItem("username");
+console.log(username); // Output: JohnDoe
+
+// Remove the item
+localStorage.removeItem("username");
+```
+
+#### **Session Storage**
+Similar to local storage, but data is cleared when the session ends.
+```javascript
+sessionStorage.setItem("isLoggedIn", "true");
+console.log(sessionStorage.getItem("isLoggedIn")); // Output: true
+sessionStorage.clear(); // Clear session storage
+```
+
+#### **Using the `window` Object**
+```javascript
+console.log(window.innerWidth); // Current width of the browser window
+console.log(window.location.href); // Current URL
+window.alert("Welcome to Web APIs!"); // Show an alert box
+```
+
+---
+
+### **3. Network APIs**
+
+#### **Fetching Data with `fetch`**
+The `fetch` API simplifies making network requests.
+```javascript
+fetch("https://jsonplaceholder.typicode.com/posts")
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error("Error:", error));
+```
+
+#### **Using `XMLHttpRequest`**
+An older way to make HTTP requests.
+```javascript
+const xhr = new XMLHttpRequest();
+xhr.open("GET", "https://jsonplaceholder.typicode.com/posts");
+xhr.onload = function () {
+    console.log(JSON.parse(xhr.responseText));
+};
+xhr.send();
+```
+
+#### **WebSockets**
+Real-time communication between the client and server.
+```javascript
+const socket = new WebSocket("wss://example.com/socket");
+
+socket.onopen = () => console.log("Connected!");
+socket.onmessage = (event) => console.log("Message:", event.data);
+socket.onclose = () => console.log("Disconnected!");
+```
+
+---
+
+### **4. Geolocation API**
+
+#### **Retrieving the User's Location**
+```javascript
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            console.log("Latitude:", position.coords.latitude);
+            console.log("Longitude:", position.coords.longitude);
+        },
+        error => console.error("Error:", error.message)
+    );
+} else {
+    console.log("Geolocation is not supported by this browser.");
+}
+```
+
+---
+
+### **5. Multimedia APIs**
+
+#### **Canvas API**
+Drawing graphics on a webpage.
+```javascript
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+
+// Draw a rectangle
+ctx.fillStyle = "red";
+ctx.fillRect(10, 10, 150, 100);
+```
+
+#### **Playing Video**
+```javascript
+const video = document.querySelector("video");
+video.play(); // Start playing
+video.pause(); // Pause
+```
+
+#### **Accessing Media Devices**
+Capture video or audio using the MediaDevices API.
+```javascript
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        const video = document.querySelector("video");
+        video.srcObject = stream;
+    })
+    .catch(error => console.error("Error accessing camera:", error));
+```
+
+---
+
+### **6. Timers and Intervals**
+
+#### **`setTimeout`**
+Execute a function after a specified delay.
+```javascript
+setTimeout(() => {
+    console.log("This message appears after 2 seconds!");
+}, 2000);
+```
+
+#### **`setInterval`**
+Execute a function repeatedly at specified intervals.
+```javascript
+setInterval(() => {
+    console.log("This message appears every second!");
+}, 1000);
+```
+
+---
+
+### **7. Notifications API**
+
+#### **Requesting Permission**
+```javascript
+Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+        new Notification("Hello!", { body: "This is a notification!" });
+    }
+});
+```
+
+---
+
+### **8. Clipboard API**
+
+#### **Copy Text to Clipboard**
+```javascript
+navigator.clipboard.writeText("Hello, Clipboard!").then(() => {
+    console.log("Text copied to clipboard!");
+});
+```
+
+#### **Read Text from Clipboard**
+```javascript
+navigator.clipboard.readText().then(text => {
+    console.log("Clipboard content:", text);
+});
+```
+
+---
+
+### **9. Intersection Observer API**
+
+Efficiently detect when an element is visible in the viewport.
+```javascript
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            console.log("Element is visible:", entry.target);
+        }
+    });
+});
+
+const element = document.querySelector(".target");
+observer.observe(element);
+```
+
+---
+
+### **10. Drag and Drop API**
+
+#### **Enabling Drag and Drop**
+```html
+<div id="draggable" draggable="true">Drag me!</div>
+<script>
+    const draggable = document.getElementById("draggable");
+
+    draggable.addEventListener("dragstart", event => {
+        event.dataTransfer.setData("text/plain", "This is draggable!");
+    });
+
+    document.addEventListener("dragover", event => event.preventDefault());
+
+    document.addEventListener("drop", event => {
+        event.preventDefault();
+        console.log(event.dataTransfer.getData("text"));
+    });
+</script>
+```
