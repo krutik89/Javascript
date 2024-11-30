@@ -561,7 +561,7 @@
         }
      ```
 
-# JavaScript Control Flow: A Comprehensive Guide with Examples  
+# JavaScript Control Flow  
 
 Control flow in JavaScript refers to the order in which the instructions or statements in a script are executed. It includes constructs like conditional statements and exception handling mechanisms that allow developers to control the execution of code in a meaningful way.  
 
@@ -763,3 +763,458 @@ try {
     console.log(error.message); // This is a validation error.
 }
 ```
+# JavaScript Functions
+
+Functions are core building blocks in JavaScript. They enable code reuse, modular design, and efficient problem solving. This guide provides a comprehensive understanding of JavaScript functions, including their declaration, behavior, and advanced concepts. 
+
+## 1. **Defining Functions**  
+
+### a. **Function Declaration**  
+
+A function declaration defines a named function. It's hoisted, meaning it can be invoked before its declaration in the code.  
+
+**Syntax:**  
+```javascript
+function functionName(parameters) {
+    // function body
+}
+```
+
+**Example:**  
+```javascript
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+console.log(greet("Alice")); // Output: Hello, Alice!
+```
+
+---
+
+### b. **Function Expressions**  
+
+Function expressions store a function in a variable. Unlike declarations, they are not hoisted.  
+
+**Syntax:**  
+```javascript
+const variableName = function(parameters) {
+    // function body
+};
+```
+
+**Example:**  
+```javascript
+const square = function(number) {
+    return number * number;
+};
+console.log(square(5)); // Output: 25
+```
+
+---
+
+## 2. **Calling Functions**  
+
+### a. **Function Hoisting**  
+
+Function declarations are hoisted, so they can be called before being defined in the code. Function expressions are not hoisted.  
+
+**Example:**  
+```javascript
+console.log(add(3, 4)); // Output: 7
+
+function add(a, b) {
+    return a + b;
+}
+
+// Below line will throw an error because expressions are not hoisted
+// console.log(multiply(3, 4));
+const multiply = function(a, b) {
+    return a * b;
+};
+```
+
+---
+
+## 3. **Function Parameters**  
+
+### a. **Default Parameters**  
+
+Default parameters allow you to set a default value for a parameter if no argument is passed.  
+
+**Syntax:**  
+```javascript
+function functionName(param = defaultValue) {
+    // function body
+}
+```
+
+**Example:**  
+```javascript
+function greet(name = "Guest") {
+    return `Welcome, ${name}!`;
+}
+console.log(greet()); // Output: Welcome, Guest!
+console.log(greet("Alice")); // Output: Welcome, Alice!
+```
+
+---
+
+### b. **Rest Parameters**  
+
+The `...rest` syntax collects all additional arguments into an array.  
+
+**Syntax:**  
+```javascript
+function functionName(...rest) {
+    // function body
+}
+```
+
+**Example:**  
+```javascript
+function sum(...numbers) {
+    return numbers.reduce((total, num) => total + num, 0);
+}
+console.log(sum(1, 2, 3, 4)); // Output: 10
+```
+
+---
+
+## 4. **Arrow Functions**  
+
+Arrow functions provide a concise syntax and do not bind their own `this` context.  
+
+**Syntax:**  
+```javascript
+const functionName = (parameters) => {
+    // function body
+};
+```
+
+**Example:**  
+```javascript
+const multiply = (a, b) => a * b;
+console.log(multiply(3, 4)); // Output: 12
+```
+
+---
+
+## 5. **IIFEs (Immediately Invoked Function Expressions)**  
+
+IIFEs are functions that are executed immediately after being defined.  
+
+**Syntax:**  
+```javascript
+(function() {
+    // function body
+})();
+```
+
+**Example:**  
+```javascript
+(function() {
+    const message = "This is an IIFE!";
+    console.log(message);
+})(); // Output: This is an IIFE!
+```
+
+---
+
+## 6. **Arguments Object**  
+
+The `arguments` object is an array-like object available inside all non-arrow functions. It contains the arguments passed to the function.  
+
+**Example:**  
+```javascript
+function showArguments() {
+    console.log(arguments);
+}
+showArguments(1, 2, 3); // Output: [1, 2, 3]
+```
+
+---
+
+## 7. **Scope and Function Stack**  
+
+### a. **Recursion**  
+
+A recursive function is a function that calls itself until a base condition is met.  
+
+**Example: Factorial**  
+```javascript
+function factorial(n) {
+    if (n === 0) return 1;
+    return n * factorial(n - 1);
+}
+console.log(factorial(5)); // Output: 120
+```
+
+---
+
+### b. **Lexical Scoping**  
+
+Functions have access to variables in their outer scope, even after the outer function has executed.  
+
+**Example:**  
+```javascript
+function outer() {
+    const outerVar = "I'm outer!";
+    function inner() {
+        console.log(outerVar); // Accesses variable from outer scope
+    }
+    inner();
+}
+outer(); // Output: I'm outer!
+```
+
+---
+
+### c. **Closures**  
+
+A closure is created when a function retains access to its lexical scope, even after the outer function has finished execution.  
+
+**Example:**  
+```javascript
+function makeCounter() {
+    let count = 0;
+    return function() {
+        count++;
+        return count;
+    };
+}
+const counter = makeCounter();
+console.log(counter()); // Output: 1
+console.log(counter()); // Output: 2
+```
+
+---
+
+## 8. **Default Functions**  
+
+Default functions are built-in methods that help with common tasks, such as `parseInt`, `isNaN`, or `setTimeout`.  
+
+**Examples:**  
+
+- `setTimeout`  
+```javascript
+setTimeout(() => {
+    console.log("This message is displayed after 2 seconds");
+}, 2000);
+```
+
+- `isNaN`  
+```javascript
+console.log(isNaN("Hello")); // Output: true
+console.log(isNaN(123)); // Output: false
+```
+# **Understanding Lexical Scoping and Closures in JavaScript**
+
+Lexical scoping and closures are fundamental concepts in JavaScript. Together, they explain how variables are resolved and accessed in nested functions. Let’s explore both in detail with examples.
+
+---
+
+## **1. Lexical Scoping**
+
+### **Definition**  
+Lexical scoping means that the scope of a variable is determined by its position in the source code, and nested functions have access to variables declared in their outer scope.
+
+### **Key Points**
+1. **Static Scope:** Variables are resolved based on where they are written in the code, not where they are called.
+2. Inner functions have access to the variables of their parent function and global scope.
+3. Scope is determined at **compile time** and does not change during runtime.
+
+### **Example: Lexical Scope**
+```javascript
+function outer() {
+    const outerVar = "I'm from the outer scope";
+
+    function inner() {
+        console.log(outerVar); // Accesses variable from the outer scope
+    }
+
+    inner();
+}
+
+outer(); // Output: I'm from the outer scope
+```
+
+Here’s what’s happening:
+- The `inner` function is declared inside the `outer` function.
+- `inner` has access to `outerVar` because of lexical scoping.
+
+---
+
+### **Scope Chain**
+When a function looks for a variable:
+1. It first checks its own scope.
+2. If not found, it looks in its parent’s scope.
+3. This continues up to the global scope.
+
+**Example: Scope Chain**
+```javascript
+const globalVar = "I'm global";
+
+function outer() {
+    const outerVar = "I'm outer";
+
+    function inner() {
+        const innerVar = "I'm inner";
+        console.log(globalVar); // Access globalVar
+        console.log(outerVar);  // Access outerVar
+    }
+
+    inner();
+}
+
+outer();
+// Output:
+// I'm global
+// I'm outer
+```
+
+---
+
+## **2. Closures**
+
+### **Definition**  
+A closure is created when a function "remembers" the variables from its lexical scope, even after the outer function has completed execution.
+
+### **Key Points**
+1. A closure is formed when a function retains access to its outer scope.
+2. It allows you to preserve data across multiple function calls.
+3. This is possible because functions in JavaScript are **first-class citizens** (they can be returned, passed around, or assigned to variables).
+
+---
+
+### **Example 1: Closure Retaining Outer Variables**
+```javascript
+function makeCounter() {
+    let count = 0; // Variable in the outer scope
+
+    return function () {
+        count++; // Inner function accesses count
+        return count;
+    };
+}
+
+const counter = makeCounter(); // Closure is created
+console.log(counter()); // Output: 1
+console.log(counter()); // Output: 2
+console.log(counter()); // Output: 3
+```
+
+**Explanation:**
+- The `makeCounter` function returns an inner function.
+- Even after `makeCounter` finishes execution, the returned function retains access to the `count` variable from its lexical scope.
+- The `count` variable is preserved because of the closure.
+
+---
+
+### **Example 2: Multiple Closures with Independent States**
+```javascript
+function createMultiplier(multiplier) {
+    return function (num) {
+        return num * multiplier; // Uses the outer multiplier
+    };
+}
+
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+
+console.log(double(5)); // Output: 10
+console.log(triple(5)); // Output: 15
+```
+
+**Explanation:**
+- Each call to `createMultiplier` creates a new closure with its own `multiplier` variable.
+- The inner function retains access to its specific `multiplier` value.
+
+---
+
+### **Example 3: Closures in Loops**
+Closures are often used with loops to capture variables.
+
+**Problem Without Closure:**
+```javascript
+for (var i = 1; i <= 3; i++) {
+    setTimeout(function () {
+        console.log(i); // All log 4 because `i` is shared
+    }, 1000);
+}
+```
+
+**Solution Using Closures:**
+```javascript
+for (var i = 1; i <= 3; i++) {
+    (function (currentI) {
+        setTimeout(function () {
+            console.log(currentI); // Logs 1, 2, 3
+        }, 1000);
+    })(i); // IIFE captures the value of `i`
+}
+```
+
+---
+
+### **Practical Applications of Closures**
+
+#### **1. Data Encapsulation**
+Closures allow you to create private variables in JavaScript.
+
+**Example:**
+```javascript
+function createSecret() {
+    let secret = "My secret";
+
+    return {
+        getSecret: function () {
+            return secret; // Access secret variable
+        },
+        setSecret: function (newSecret) {
+            secret = newSecret; // Modify secret variable
+        }
+    };
+}
+
+const mySecret = createSecret();
+console.log(mySecret.getSecret()); // Output: My secret
+mySecret.setSecret("New secret");
+console.log(mySecret.getSecret()); // Output: New secret
+```
+
+---
+
+#### **2. Memoization**
+Closures help in caching results of expensive function calls.
+
+**Example:**
+```javascript
+function memoize(fn) {
+    const cache = {};
+    return function (arg) {
+        if (cache[arg] !== undefined) {
+            console.log("Fetching from cache");
+            return cache[arg];
+        }
+        console.log("Computing result");
+        const result = fn(arg);
+        cache[arg] = result;
+        return result;
+    };
+}
+
+const square = memoize((num) => num * num);
+
+console.log(square(5)); // Computing result; Output: 25
+console.log(square(5)); // Fetching from cache; Output: 25
+```
+
+---
+
+## **Key Differences Between Lexical Scoping and Closures**
+
+| **Aspect**              | **Lexical Scoping**                           | **Closures**                                |
+|-------------------------|----------------------------------------------|--------------------------------------------|
+| **Definition**          | The ability of a function to access variables in its lexical scope. | When a function "remembers" its outer scope even after execution. |
+| **Focus**               | Determines how variables are resolved.        | Enables persistent access to variables.     |
+| **When It Happens**     | At the time of writing the code.              | At the time of execution.                   |
+| **Example Usage**       | Resolving variable references.                | Maintaining private variables or states.    |
