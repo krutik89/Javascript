@@ -3069,3 +3069,225 @@ class Example {
 const obj = new Example("visible");
 console.log(JSON.stringify(obj)); // Output: {"publicField":"visible"}
 ```
+### **Extending Built-In Classes in JavaScript**
+
+---
+
+### **Introduction**
+
+In JavaScript, classes can extend **built-in classes** like `Array`, `Error`, `Date`, or even `Map`. This allows developers to create custom versions of these classes while still inheriting their native functionality. For example, you could create a specialized array class with additional methods for your specific use case.
+
+---
+
+### **How to Extend Built-In Classes**
+
+To extend a built-in class:
+1. Use the `extends` keyword.
+2. Add your custom properties or methods.
+3. Call the parent class methods when needed using `super()`.
+
+**Syntax:**
+```javascript
+class CustomClass extends BuiltInClass {
+    constructor(args) {
+        super(args); // Call the parent constructor
+        // Add custom properties or logic
+    }
+
+    customMethod() {
+        // Custom functionality
+    }
+}
+```
+
+---
+
+### **Example 1: Extending `Array`**
+
+Let’s create a custom array class with an additional method `average()`.
+
+```javascript
+class CustomArray extends Array {
+    average() {
+        return this.reduce((acc, val) => acc + val, 0) / this.length;
+    }
+}
+
+const numbers = new CustomArray(10, 20, 30, 40);
+console.log(numbers.average()); // Output: 25
+console.log(numbers instanceof CustomArray); // true
+console.log(numbers instanceof Array);       // true
+```
+
+#### **Explanation:**
+1. `CustomArray` inherits all methods from `Array` (e.g., `push`, `pop`).
+2. The `average()` method is added to calculate the average of all elements.
+3. `numbers` is an instance of both `CustomArray` and `Array`.
+
+---
+
+### **Example 2: Extending `Error`**
+
+You can extend the `Error` class to create custom error types with additional properties.
+
+```javascript
+class CustomError extends Error {
+    constructor(message, errorCode) {
+        super(message); // Call the Error constructor
+        this.name = "CustomError"; // Custom error name
+        this.errorCode = errorCode; // Additional property
+    }
+}
+
+try {
+    throw new CustomError("Something went wrong!", 404);
+} catch (error) {
+    console.log(error.name);      // Output: CustomError
+    console.log(error.message);   // Output: Something went wrong!
+    console.log(error.errorCode); // Output: 404
+}
+```
+
+#### **Explanation:**
+1. `CustomError` extends `Error` to inherit its methods like `stack` and `message`.
+2. Added a custom property `errorCode` for additional context.
+
+---
+
+### **Example 3: Extending `Date`**
+
+You can create a custom date class with extra methods.
+
+```javascript
+class CustomDate extends Date {
+    getFormattedDate() {
+        const day = this.getDate().toString().padStart(2, "0");
+        const month = (this.getMonth() + 1).toString().padStart(2, "0");
+        const year = this.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+}
+
+const myDate = new CustomDate("2024-11-28");
+console.log(myDate.getFormattedDate()); // Output: 28-11-2024
+```
+
+#### **Explanation:**
+1. `CustomDate` inherits all methods of the `Date` class (e.g., `getDate`, `getMonth`).
+2. Added a `getFormattedDate` method for custom date formatting.
+
+---
+
+### **Important Notes**
+
+1. **Calling `super()`**:  
+   When extending a built-in class, the parent constructor (`super()`) **must** be called in the child constructor. This ensures the base class is properly initialized.
+
+   **Example:**
+   ```javascript
+   class CustomArray extends Array {
+       constructor(...args) {
+           super(...args); // Initialize the Array class
+           this.createdAt = new Date(); // Additional property
+       }
+   }
+   ```
+
+2. **Instanceof Operator**:  
+   Instances of a class that extends a built-in class will also pass the `instanceof` check for the parent class.
+
+   ```javascript
+   const numbers = new CustomArray(1, 2, 3);
+   console.log(numbers instanceof CustomArray); // true
+   console.log(numbers instanceof Array);       // true
+   ```
+
+3. **Overriding Methods**:  
+   You can override built-in methods and provide custom behavior.
+   ```javascript
+   class CustomArray extends Array {
+       push(...args) {
+           console.log("Custom push method called!");
+           return super.push(...args);
+       }
+   }
+
+   const arr = new CustomArray();
+   arr.push(5); // Output: Custom push method called!
+   console.log(arr); // Output: [5]
+   ```
+
+---
+
+### **Interview Questions**
+
+#### **1. Why would you extend a built-in class in JavaScript?**  
+**Answer:**  
+To create specialized versions of built-in objects, adding custom properties or methods while retaining the core functionality of the parent class.
+
+#### **2. What is the purpose of calling `super()` in a child class?**  
+**Answer:**  
+The `super()` method calls the constructor of the parent class. It is mandatory in a derived class before accessing `this`.
+
+#### **3. Can you override built-in methods in a custom class?**  
+**Answer:**  
+Yes, you can override methods in a custom class and provide custom behavior. Use `super.methodName()` to call the original method if needed.
+
+---
+
+#### **4. Write a class that extends `Array` and adds a method to find the maximum element.**
+**Answer:**
+```javascript
+class CustomArray extends Array {
+    getMax() {
+        return Math.max(...this);
+    }
+}
+
+const numbers = new CustomArray(5, 10, 15, 20);
+console.log(numbers.getMax()); // Output: 20
+```
+
+---
+
+#### **5. What will this code output?**
+```javascript
+class CustomError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "CustomError";
+    }
+}
+
+try {
+    throw new CustomError("Oops!");
+} catch (error) {
+    console.log(error instanceof CustomError); // ?
+    console.log(error instanceof Error);       // ?
+}
+```
+**Answer:**  
+- `true` (because `error` is an instance of `CustomError`).
+- `true` (because `CustomError` extends `Error`).
+
+---
+
+#### **6. Can you create a class that extends multiple built-in classes?**  
+**Answer:**  
+No, JavaScript does not support multiple inheritance directly. However, you can use **mixins** to combine functionality from multiple classes.
+
+---
+
+#### **7. How do you extend a class and add new functionality without overriding the parent behavior?**  
+**Answer:**  
+Use `super.methodName()` to call the parent method and add custom behavior.
+
+**Example:**
+```javascript
+class CustomArray extends Array {
+    push(...args) {
+        console.log("Adding elements:", args);
+        return super.push(...args); // Call parent method
+    }
+}
+```
