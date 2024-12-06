@@ -1997,3 +1997,263 @@ main();
 | **Promises**        | Manage asynchronous code more cleanly with `.then`, `.catch`, and `.finally`.                              |
 | **`async/await`**   | Simplifies promise-based code to look synchronous; requires proper error handling with `try/catch`.        |
 
+Here’s a **detailed guide** for each topic in JavaScript networking, with explanations, best practices, and code examples. 
+
+---
+
+### **1. Fetch API Basics**
+The `fetch` API is a modern, promise-based way to make network requests. It simplifies the process of sending and receiving HTTP requests.
+
+#### **Key Features:**
+- Returns a `Promise`.
+- Supports modern JavaScript syntax like `async/await`.
+
+#### **Example: Basic GET Request**
+```javascript
+fetch('https://jsonplaceholder.typicode.com/posts')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Fetch error:', error));
+```
+
+#### **Best Practices:**
+- Always handle errors with `.catch()`.
+- Use `async/await` for better readability:
+```javascript
+async function fetchPosts() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    if (!response.ok) throw new Error('Network error');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+```
+
+---
+
+### **2. Working with FormData**
+`FormData` simplifies working with form data, especially when dealing with files.
+
+#### **Example: File Upload**
+```javascript
+const formData = new FormData();
+formData.append('username', 'JohnDoe');
+formData.append('profilePic', fileInput.files[0]); // fileInput is an `<input type="file">`
+
+fetch('https://example.com/upload', {
+  method: 'POST',
+  body: formData,
+})
+  .then(response => response.json())
+  .then(data => console.log('Success:', data))
+  .catch(error => console.error('Error:', error));
+```
+
+#### **Best Practices:**
+- Use `multipart/form-data` headers for file uploads.
+- Avoid setting `Content-Type` manually; `fetch` sets it automatically.
+
+---
+
+### **3. Fetch: Download Progress**
+Track download progress using `ReadableStream`.
+
+#### **Example: Tracking Progress**
+```javascript
+fetch('https://example.com/large-file.zip')
+  .then(response => {
+    const reader = response.body.getReader();
+    const contentLength = response.headers.get('Content-Length');
+    let receivedLength = 0;
+
+    return reader.read().then(function process({ done, value }) {
+      if (done) {
+        console.log('Download complete');
+        return;
+      }
+      receivedLength += value.length;
+      console.log(`Progress: ${(receivedLength / contentLength * 100).toFixed(2)}%`);
+      return reader.read().then(process);
+    });
+  })
+  .catch(error => console.error('Error:', error));
+```
+
+---
+
+### **4. Fetch: Abort**
+`AbortController` lets you cancel ongoing `fetch` requests.
+
+#### **Example: Aborting a Request**
+```javascript
+const controller = new AbortController();
+
+fetch('https://jsonplaceholder.typicode.com/posts', { signal: controller.signal })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => {
+    if (error.name === 'AbortError') {
+      console.log('Fetch aborted');
+    } else {
+      console.error('Error:', error);
+    }
+  });
+
+// Abort after 2 seconds
+setTimeout(() => controller.abort(), 2000);
+```
+
+---
+
+### **5. Fetch: Cross-Origin Requests**
+Cross-Origin Resource Sharing (CORS) allows a resource on one domain to be requested from another domain.
+
+#### **Example: Handling CORS**
+```javascript
+fetch('https://another-domain.com/api', { mode: 'cors' })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('CORS error:', error));
+```
+
+#### **Best Practices:**
+- The server must set `Access-Control-Allow-Origin` headers.
+- Use a proxy if the server doesn't support CORS.
+
+---
+
+### **6. Fetch API Features**
+`fetch` supports additional HTTP methods, custom headers, and request configurations.
+
+#### **Example: POST Request**
+```javascript
+fetch('https://example.com/api', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ name: 'John Doe', age: 30 }),
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+---
+
+### **7. URL Objects**
+The `URL` class simplifies URL manipulation.
+
+#### **Example: Query Parameters**
+```javascript
+const url = new URL('https://api.example.com/data');
+url.searchParams.append('q', 'javascript');
+url.searchParams.append('limit', '10');
+
+fetch(url)
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+---
+
+### **8. XMLHttpRequest**
+The older `XMLHttpRequest` API provides fine-grained control over network requests.
+
+#### **Example: Basic Request**
+```javascript
+const xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts', true);
+
+xhr.onload = () => {
+  if (xhr.status === 200) {
+    console.log(JSON.parse(xhr.responseText));
+  } else {
+    console.error('Request failed');
+  }
+};
+
+xhr.onerror = () => console.error('Network error');
+xhr.send();
+```
+
+---
+
+### **9. Resumable File Upload**
+Chunked file uploads allow pausing and resuming transfers.
+
+#### **Example: File Chunking**
+```javascript
+const chunkSize = 1024 * 1024; // 1MB
+const totalChunks = Math.ceil(file.size / chunkSize);
+
+for (let i = 0; i < totalChunks; i++) {
+  const start = i * chunkSize;
+  const chunk = file.slice(start, start + chunkSize);
+
+  fetch('https://example.com/upload', {
+    method: 'POST',
+    headers: {
+      'Content-Range': `bytes ${start}-${start + chunkSize - 1}/${file.size}`,
+    },
+    body: chunk,
+  }).then(response => console.log(`Chunk ${i + 1} uploaded`));
+}
+```
+
+---
+
+### **10. Long Polling**
+Long polling maintains a connection to check for updates.
+
+#### **Example: Polling for Updates**
+```javascript
+function poll() {
+  fetch('https://example.com/updates')
+    .then(response => response.json())
+    .then(data => {
+      console.log('Update:', data);
+      poll(); // Keep polling
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+poll();
+```
+
+---
+
+### **11. WebSocket**
+WebSockets enable real-time communication.
+
+#### **Example: Chat Application**
+```javascript
+const ws = new WebSocket('wss://example.com/socket');
+
+ws.onopen = () => console.log('Connected to WebSocket');
+ws.onmessage = event => console.log('Message:', event.data);
+ws.onerror = error => console.error('WebSocket Error:', error);
+ws.onclose = () => console.log('WebSocket connection closed');
+```
+
+---
+
+### **12. Server-Sent Events (SSE)**
+SSE allows the server to send real-time updates to the client.
+
+#### **Example: Receiving Events**
+```javascript
+const eventSource = new EventSource('https://example.com/events');
+
+eventSource.onmessage = event => console.log('New message:', event.data);
+eventSource.onerror = error => console.error('Error:', error);
+```
