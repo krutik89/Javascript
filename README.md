@@ -2554,3 +2554,518 @@ try {
 1. **Complexity**: Overuse of inheritance can make the code harder to understand.
 2. **Tightly Coupled**: Changes in the parent class can affect child classes unexpectedly.
 
+### **JavaScript Static Properties and Methods**
+
+---
+
+### **What are Static Properties and Methods?**
+
+In JavaScript, **static properties and methods** are those that belong to a class itself, rather than to any instance of the class. You access static properties and methods using the class name, not through an instance of the class.
+
+---
+
+### **Key Characteristics of Static Properties and Methods**
+
+1. **Class-Level Scope**:  
+   Static properties and methods are shared across all instances and do not require an object instance to access.
+
+2. **Declared with the `static` Keyword**:  
+   Use the `static` keyword before defining a method or property in the class.
+
+3. **Not Inherited by Instances**:  
+   Static methods and properties cannot be accessed using `this` from an instance.
+
+4. **Often Used for Utility Functions**:  
+   Static methods are typically used for operations not specific to an instance, like utility or helper methods.
+
+---
+
+### **Syntax for Static Properties and Methods**
+
+```javascript
+class ClassName {
+    static staticProperty = "I am static";
+    
+    static staticMethod() {
+        return "This is a static method.";
+    }
+}
+
+// Accessing static property
+console.log(ClassName.staticProperty); // Output: I am static
+
+// Accessing static method
+console.log(ClassName.staticMethod()); // Output: This is a static method
+```
+
+---
+
+### **Example: Static Method in Practice**
+
+Here is an example of a utility method for basic mathematical operations:
+
+```javascript
+class MathUtil {
+    static add(a, b) {
+        return a + b;
+    }
+
+    static multiply(a, b) {
+        return a * b;
+    }
+}
+
+// Accessing static methods
+console.log(MathUtil.add(3, 5));      // Output: 8
+console.log(MathUtil.multiply(3, 5)); // Output: 15
+```
+
+---
+
+### **Static vs Instance Methods and Properties**
+
+| **Aspect**          | **Static**                                     | **Instance**                          |
+|----------------------|-----------------------------------------------|---------------------------------------|
+| **Access**           | Accessed using the class name.                | Accessed using an instance of the class. |
+| **Context**          | Shared across all instances (class-level).     | Tied to a specific object instance.   |
+| **Keyword**          | Declared with the `static` keyword.            | No special keyword.                   |
+| **Example Access**   | `ClassName.method()`                          | `instance.method()`                   |
+
+**Example**:  
+```javascript
+class Example {
+    static staticMethod() {
+        return "Static method";
+    }
+
+    instanceMethod() {
+        return "Instance method";
+    }
+}
+
+const exampleInstance = new Example();
+console.log(Example.staticMethod());       // Output: Static method
+console.log(exampleInstance.instanceMethod()); // Output: Instance method
+```
+
+---
+
+### **Defining Static Properties**
+
+As of ES6, static properties are not defined directly within the class body, but in ES2022+, they can be declared inline using the `static` keyword.
+
+#### **Example 1: ES6 Way**
+```javascript
+class AppConfig {}
+AppConfig.appName = "MyApp";
+AppConfig.version = "1.0.0";
+
+console.log(AppConfig.appName); // Output: MyApp
+console.log(AppConfig.version); // Output: 1.0.0
+```
+
+#### **Example 2: ES2022+ Inline Static Properties**
+```javascript
+class AppConfig {
+    static appName = "MyApp";
+    static version = "1.0.0";
+}
+
+console.log(AppConfig.appName); // Output: MyApp
+console.log(AppConfig.version); // Output: 1.0.0
+```
+
+---
+
+### **Practical Use Cases**
+
+#### **1. Singleton Pattern**
+Static properties can be used to create singletons.
+
+```javascript
+class Singleton {
+    static instance;
+
+    constructor(name) {
+        if (Singleton.instance) {
+            return Singleton.instance;
+        }
+        Singleton.instance = this;
+        this.name = name;
+    }
+
+    static getInstance(name) {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton(name);
+        }
+        return Singleton.instance;
+    }
+}
+
+const obj1 = Singleton.getInstance("FirstInstance");
+const obj2 = Singleton.getInstance("SecondInstance");
+
+console.log(obj1 === obj2); // Output: true
+console.log(obj1.name);     // Output: FirstInstance
+```
+
+---
+
+#### **2. Utility or Helper Classes**
+Static methods are perfect for utility methods that do not depend on instance-specific data.
+
+```javascript
+class DateUtil {
+    static getCurrentDate() {
+        return new Date().toISOString();
+    }
+}
+
+console.log(DateUtil.getCurrentDate()); // Output: Current date in ISO format
+```
+
+---
+
+#### **3. Global Counters or Configuration**
+Static properties can track shared states or configurations.
+
+```javascript
+class Counter {
+    static count = 0;
+
+    static increment() {
+        return ++Counter.count;
+    }
+
+    static reset() {
+        Counter.count = 0;
+    }
+}
+
+console.log(Counter.increment()); // Output: 1
+console.log(Counter.increment()); // Output: 2
+Counter.reset();
+console.log(Counter.count);       // Output: 0
+```
+
+---
+
+### **Static Methods with `this` Context**
+
+Within static methods, `this` refers to the class itself, not an instance.
+
+```javascript
+class Logger {
+    static log(message) {
+        console.log(`[${this.name}] ${message}`);
+    }
+}
+
+Logger.log("Static method example."); // Output: [Logger] Static method example.
+```
+
+---
+
+### **Common Interview Questions**
+
+1. **What are static methods in JavaScript?**
+   - **Answer**: Methods that belong to the class itself and can be accessed without creating an instance of the class.
+
+2. **How do you declare and access a static property in ES2022+?**
+   - **Answer**: Use the `static` keyword directly inside the class body:
+     ```javascript
+     class Example {
+         static propertyName = "value";
+     }
+     console.log(Example.propertyName);
+     ```
+
+3. **What happens if you try to access a static method with an instance?**
+   - **Answer**: It will throw an error because static methods are not accessible through instances.
+
+4. **Can static methods access instance properties?**
+   - **Answer**: No, static methods do not have access to instance-specific properties.
+
+5. **How do you define static methods for utility functionality?**
+   - **Answer**: Define methods with `static` and use the class name to call them. For example:
+     ```javascript
+     class MathUtil {
+         static square(num) {
+             return num * num;
+         }
+     }
+     console.log(MathUtil.square(4));
+     ```
+
+### **Private and Protected Properties and Methods**
+
+### **Introduction**
+
+JavaScript introduced support for truly **private class fields and methods** with the **`#` syntax** in ECMAScript 2022. This allows developers to define properties and methods that cannot be accessed outside the class. Additionally, "protected" properties and methods can be simulated using naming conventions like `_propertyName`.
+
+---
+
+### **Private Properties and Methods**
+
+#### **What are Private Properties and Methods?**
+
+- **Private properties** and **methods** can only be accessed inside the class where they are defined. 
+- They are denoted by the `#` prefix.
+- They are not accessible by instances of the class or from outside the class.
+- This provides true encapsulation, a key concept in object-oriented programming.
+
+---
+
+### **Declaring Private Properties**
+
+#### **Syntax**
+```javascript
+class ClassName {
+    #privateProperty; // Private field declaration
+    #privateMethod() { /* Private method */ }
+}
+```
+
+---
+
+#### **Example: Private Properties**
+```javascript
+class BankAccount {
+    #balance; // Private field
+
+    constructor(initialBalance) {
+        this.#balance = initialBalance; // Accessed within the class
+    }
+
+    deposit(amount) {
+        this.#balance += amount;
+        console.log(`Deposited ${amount}. New balance: ${this.#balance}`);
+    }
+
+    withdraw(amount) {
+        if (amount > this.#balance) {
+            console.log("Insufficient funds.");
+        } else {
+            this.#balance -= amount;
+            console.log(`Withdrew ${amount}. New balance: ${this.#balance}`);
+        }
+    }
+}
+
+const account = new BankAccount(100);
+account.deposit(50); // Output: Deposited 50. New balance: 150
+account.withdraw(30); // Output: Withdrew 30. New balance: 120
+
+// Attempt to access private field
+console.log(account.#balance); // Error: Private field '#balance' must be declared in an enclosing class
+```
+
+---
+
+### **Private Methods**
+
+Private methods are similar to private properties but are used for encapsulating behavior that is only meant to be used internally within the class.
+
+#### **Example: Private Methods**
+```javascript
+class User {
+    #password;
+
+    constructor(username, password) {
+        this.username = username;
+        this.#password = password;
+    }
+
+    // Private method
+    #validatePassword(input) {
+        return input === this.#password;
+    }
+
+    login(inputPassword) {
+        if (this.#validatePassword(inputPassword)) {
+            console.log("Login successful!");
+        } else {
+            console.log("Invalid password.");
+        }
+    }
+}
+
+const user = new User("john_doe", "secure123");
+user.login("secure123"); // Output: Login successful!
+user.login("wrongPass"); // Output: Invalid password
+
+// Trying to call a private method
+// user.#validatePassword("secure123"); // Error: Private field '#validatePassword' must be declared in an enclosing class
+```
+
+---
+
+### **Protected Properties and Methods**
+
+#### **What are Protected Properties and Methods?**
+
+- JavaScript does not have a built-in `protected` keyword like some other languages (e.g., Java, C#).
+- Developers simulate **protected properties** by using naming conventions (e.g., `_propertyName`).
+- These properties are not strictly protected but signal to other developers that they are not meant for public access.
+
+---
+
+#### **Example: Simulating Protected Properties**
+```javascript
+class Parent {
+    constructor(name) {
+        this.name = name;
+        this._protectedValue = 42; // Naming convention
+    }
+
+    showProtectedValue() {
+        console.log(`Protected Value: ${this._protectedValue}`);
+    }
+}
+
+class Child extends Parent {
+    incrementProtectedValue() {
+        this._protectedValue += 1;
+    }
+}
+
+const child = new Child("Alice");
+child.incrementProtectedValue();
+child.showProtectedValue(); // Output: Protected Value: 43
+
+// Conventionally, other developers know not to directly access _protectedValue.
+console.log(child._protectedValue); // Output: 43
+```
+
+---
+
+### **Combining Private and Public Members**
+
+#### **Example: A Class with Mixed Access Levels**
+```javascript
+class Car {
+    #engineStarted; // Private property
+
+    constructor(brand) {
+        this.brand = brand; // Public property
+        this.#engineStarted = false;
+    }
+
+    startEngine() {
+        this.#engineStarted = true;
+        console.log(`${this.brand} engine started.`);
+    }
+
+    stopEngine() {
+        this.#engineStarted = false;
+        console.log(`${this.brand} engine stopped.`);
+    }
+
+    isEngineRunning() {
+        return this.#engineStarted;
+    }
+}
+
+const car = new Car("Toyota");
+car.startEngine(); // Output: Toyota engine started.
+console.log(car.isEngineRunning()); // Output: true
+car.stopEngine(); // Output: Toyota engine stopped.
+console.log(car.isEngineRunning()); // Output: false
+```
+
+---
+
+### **Advantages of Private and Protected Members**
+
+1. **Encapsulation**: Helps protect the internal state of the object.
+2. **Data Hiding**: Prevents unintended interference from external code.
+3. **Improved Code Maintenance**: Clearly separates internal and external interfaces.
+
+---
+
+### **Limitations**
+
+1. **Private fields are inaccessible even for subclasses.**
+   - Unlike protected members in other languages, private fields cannot be accessed in derived classes.
+   
+   **Example:**
+   ```javascript
+   class Parent {
+       #privateValue = 42;
+   }
+
+   class Child extends Parent {
+       showPrivateValue() {
+           // console.log(this.#privateValue); // Error: Private field '#privateValue' is not accessible.
+       }
+   }
+   ```
+
+2. **Cannot Dynamically Add Private Fields**
+   - Private fields must be explicitly declared in the class definition and cannot be added dynamically.
+
+---
+
+### **Comparison Table**
+
+| **Feature**            | **Private**                                 | **Protected (Simulated)**             |
+|-------------------------|---------------------------------------------|---------------------------------------|
+| **Accessibility**       | Only within the class.                     | Accessible in subclasses.            |
+| **Implementation**      | Use `#property` or `#method`.              | Use naming conventions like `_prop`. |
+| **Encapsulation**       | Fully encapsulated.                        | Partially encapsulated.              |
+| **Inheritance**         | Not accessible in derived classes.         | Accessible in derived classes.       |
+
+---
+
+### **Interview Questions on Private and Protected Members**
+
+#### **1. What is the difference between private and protected properties in JavaScript?**
+**Answer:**  
+- Private properties are declared using the `#` prefix and can only be accessed within the class.
+- Protected properties are simulated using naming conventions like `_propertyName` and can be accessed in subclasses.
+
+---
+
+#### **2. Can private fields be accessed in derived classes?**
+**Answer:**  
+No, private fields are not accessible in derived classes. They are strictly confined to the class where they are defined.
+
+---
+
+#### **3. How do you declare a private field in JavaScript?**
+**Answer:**  
+Use the `#` prefix before the property name. Example:
+```javascript
+class Example {
+    #privateField;
+}
+```
+
+---
+
+#### **4. What are the benefits of using private fields over public fields?**
+**Answer:**  
+- Prevents accidental overwrites or modifications from outside the class.
+- Ensures better encapsulation and protects the internal state of objects.
+
+---
+
+#### **5. How can you simulate protected properties in JavaScript?**
+**Answer:**  
+By using naming conventions like `_propertyName`, which signals to developers that the property is intended to be protected.
+
+---
+
+#### **6. Can private fields be serialized into JSON?**
+**Answer:**  
+No, private fields are not included in JSON serialization.
+```javascript
+class Example {
+    #privateField = "secret";
+    constructor(publicField) {
+        this.publicField = publicField;
+    }
+}
+const obj = new Example("visible");
+console.log(JSON.stringify(obj)); // Output: {"publicField":"visible"}
+```
