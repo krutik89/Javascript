@@ -3291,3 +3291,254 @@ class CustomArray extends Array {
     }
 }
 ```
+### **Class Checking with `instanceof` in JavaScript**
+
+---
+
+### **What is `instanceof`?**
+
+The `instanceof` operator in JavaScript is used to check whether an object is an instance of a specific class (or constructor function) or its subclass. It returns `true` if the prototype property of the constructor appears in the object's prototype chain, otherwise `false`.
+
+---
+
+### **Syntax**
+```javascript
+object instanceof Constructor
+```
+
+- **object**: The object to test.
+- **Constructor**: The class or constructor function to check against.
+
+---
+
+### **Basic Example**
+```javascript
+class Animal {}
+class Dog extends Animal {}
+
+const dog = new Dog();
+
+console.log(dog instanceof Dog);    // true (dog is an instance of Dog)
+console.log(dog instanceof Animal); // true (dog is also an instance of Animal)
+console.log(dog instanceof Object); // true (all objects inherit from Object)
+```
+
+---
+
+### **How Does `instanceof` Work?**
+
+1. The `instanceof` operator checks the **prototype chain** of the object.
+2. It verifies if the prototype property of the constructor (`Constructor.prototype`) exists anywhere in the object’s prototype chain.
+
+---
+
+### **Examples and Use Cases**
+
+#### **1. Class Instance Check**
+```javascript
+class Car {}
+const myCar = new Car();
+
+console.log(myCar instanceof Car); // true
+console.log(myCar instanceof Object); // true (all classes ultimately inherit from Object)
+```
+
+#### **2. Subclass Check**
+```javascript
+class Animal {}
+class Cat extends Animal {}
+
+const kitty = new Cat();
+console.log(kitty instanceof Cat);    // true
+console.log(kitty instanceof Animal); // true
+console.log(kitty instanceof Object); // true
+```
+
+#### **3. Custom Constructor Functions**
+Before ES6 classes, constructors were written as functions.
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+const john = new Person("John");
+
+console.log(john instanceof Person); // true
+console.log(john instanceof Object); // true
+```
+
+#### **4. Using `instanceof` with Built-in Types**
+```javascript
+const arr = [];
+console.log(arr instanceof Array); // true
+console.log(arr instanceof Object); // true (Array is a subclass of Object)
+
+const date = new Date();
+console.log(date instanceof Date); // true
+console.log(date instanceof Object); // true
+```
+
+#### **5. Cross-Frame Issues**
+`instanceof` may give unexpected results when objects are created in different execution contexts (e.g., iframes or windows), as each context has its own global objects.
+
+```javascript
+// Assume `iframe.contentWindow` creates an iframe
+const iframe = document.createElement('iframe');
+document.body.appendChild(iframe);
+
+const iframeArray = new iframe.contentWindow.Array();
+console.log(iframeArray instanceof Array); // false (different global object context)
+```
+
+---
+
+### **Common Pitfalls**
+
+#### **1. Primitive Types**
+The `instanceof` operator does not work with primitive types like strings, numbers, or booleans.
+
+```javascript
+console.log("hello" instanceof String); // false
+console.log(42 instanceof Number);     // false
+```
+
+#### **2. Overridden Prototypes**
+If the prototype of a constructor is changed after objects have been created, `instanceof` may no longer work as expected.
+
+```javascript
+function Person() {}
+const john = new Person();
+
+// Changing the prototype
+Person.prototype = {};
+console.log(john instanceof Person); // false
+```
+
+#### **3. Comparing to Null or Undefined**
+`instanceof` always returns `false` for `null` and `undefined`, as they are not objects.
+
+```javascript
+console.log(null instanceof Object); // false
+console.log(undefined instanceof Object); // false
+```
+
+---
+
+### **Interview Questions**
+
+#### **1. What is `instanceof` in JavaScript?**
+**Answer:**  
+The `instanceof` operator checks whether an object is an instance of a particular class or constructor function by verifying if the constructor's prototype exists in the object's prototype chain.
+
+---
+
+#### **2. What does this code output and why?**
+```javascript
+class Parent {}
+class Child extends Parent {}
+
+const obj = new Child();
+console.log(obj instanceof Child); // ?
+console.log(obj instanceof Parent); // ?
+console.log(obj instanceof Object); // ?
+```
+**Answer:**  
+- `true`: `obj` is an instance of `Child`.
+- `true`: `obj` inherits from `Parent` through the prototype chain.
+- `true`: All objects in JavaScript inherit from `Object`.
+
+---
+
+#### **3. How does `instanceof` differ from `typeof`?**
+**Answer:**  
+- `instanceof`: Checks the prototype chain and works with objects and classes.
+- `typeof`: Returns a string representing the type of a variable and works with primitives and functions.
+
+---
+
+#### **4. Why might `instanceof` fail in a cross-frame environment?**
+**Answer:**  
+Each frame or window has its own global objects (e.g., `Array`, `Object`), so an object created in one frame will have a different prototype chain from those in another frame.
+
+---
+
+#### **5. How would you fix this cross-frame issue?**
+**Answer:**  
+Use `Object.prototype.toString` or compare constructors explicitly:
+```javascript
+Object.prototype.toString.call(iframeArray); // "[object Array]"
+```
+
+---
+
+#### **6. What will this code output and why?**
+```javascript
+class A {}
+class B {}
+
+A.prototype = B.prototype = {};
+const obj = new A();
+
+console.log(obj instanceof A); // ?
+console.log(obj instanceof B); // ?
+```
+**Answer:**  
+- `true`: `obj` inherits the prototype assigned to `A`.
+- `true`: Since `A` and `B` share the same prototype, `obj` is also an instance of `B`.
+
+---
+
+### **Practical Scenarios**
+
+#### **1. Type Checking with `instanceof`**
+Use `instanceof` to ensure an argument passed to a function is of the correct type.
+
+```javascript
+class User {}
+function greet(user) {
+    if (!(user instanceof User)) {
+        throw new Error("Invalid user");
+    }
+    console.log("Hello, user!");
+}
+
+const user = new User();
+greet(user); // Output: Hello, user!
+```
+
+#### **2. Polymorphism**
+`instanceof` can be used to apply different behaviors based on the object type.
+
+```javascript
+class Animal {}
+class Dog extends Animal {}
+class Cat extends Animal {}
+
+function interact(animal) {
+    if (animal instanceof Dog) {
+        console.log("Play fetch with the dog.");
+    } else if (animal instanceof Cat) {
+        console.log("Pet the cat.");
+    } else {
+        console.log("Interact with the animal.");
+    }
+}
+
+const dog = new Dog();
+const cat = new Cat();
+
+interact(dog); // Output: Play fetch with the dog.
+interact(cat); // Output: Pet the cat.
+```
+
+---
+
+### **Comparison: `instanceof` vs Other Techniques**
+
+| **Technique**              | **Purpose**                                              | **Example**                                                                                     |
+|----------------------------|----------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| `instanceof`               | Check prototype chain, works for objects and subclasses. | `obj instanceof ClassName`                                                                     |
+| `Object.prototype.toString`| Check object type based on internal tags.                | `Object.prototype.toString.call([])` returns `[object Array]`                                  |
+| `typeof`                   | Identify primitive types and functions.                 | `typeof 42 // "number"`                                                                        |
+| `constructor`              | Check the constructor property of an object.            | `obj.constructor === ClassName`                                                               |
