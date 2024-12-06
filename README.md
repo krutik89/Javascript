@@ -2257,3 +2257,300 @@ const eventSource = new EventSource('https://example.com/events');
 eventSource.onmessage = event => console.log('New message:', event.data);
 eventSource.onerror = error => console.error('Error:', error);
 ```
+### **JavaScript Classes: Complete Guide with Examples**
+
+---
+
+### **1. Classes Basic Syntax**
+
+#### **Definition**  
+A class is a blueprint for creating objects with predefined properties and methods. JavaScript classes were introduced in ES6 as syntactical sugar over JavaScript’s prototype-based inheritance.
+
+#### **Example**: Creating and using a class  
+```javascript
+class Person {
+    constructor(name, age) {
+        this.name = name; // Instance property
+        this.age = age;
+    }
+
+    // Instance method
+    greet() {
+        console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+    }
+}
+
+// Creating an instance
+const person1 = new Person("Alice", 30);
+person1.greet(); // Output: Hello, my name is Alice and I am 30 years old.
+```
+### **2. Class Inheritance in JavaScript**
+
+#### **What is Class Inheritance?**
+Class inheritance is a mechanism in JavaScript where a class (child class) can inherit properties and methods from another class (parent class). This allows code reuse and a logical hierarchical structure between classes.
+
+Inheritance is implemented using the `extends` keyword. The child class can:
+1. Use methods and properties of the parent class.
+2. Override methods from the parent class.
+3. Add its own methods and properties.
+
+---
+
+### **How to Use Class Inheritance**
+
+#### **Defining a Parent Class**
+A parent class is the base class that contains shared logic or properties that can be inherited by child classes.
+
+```javascript
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+
+    speak() {
+        console.log(`${this.name} makes a noise.`);
+    }
+}
+```
+
+#### **Creating a Child Class**
+A child class is defined using the `extends` keyword. It inherits all the properties and methods of the parent class.
+
+```javascript
+class Dog extends Animal {
+    speak() {
+        console.log(`${this.name} barks.`);
+    }
+}
+
+const dog = new Dog("Buddy");
+dog.speak(); // Output: Buddy barks.
+```
+
+---
+
+### **Key Concepts of Class Inheritance**
+
+#### **1. The `super` Keyword**
+- **Definition**: The `super` keyword is used to call the constructor or methods of the parent class.
+- **Usage in Constructor**: When defining a constructor in the child class, the `super` keyword must be called before accessing `this`.
+
+**Example: Using `super` in Constructor**
+```javascript
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name); // Call the parent class constructor
+        this.breed = breed; // Add a new property
+    }
+
+    getDetails() {
+        console.log(`${this.name} is a ${this.breed}.`);
+    }
+}
+
+const dog = new Dog("Buddy", "Golden Retriever");
+dog.getDetails(); // Output: Buddy is a Golden Retriever.
+```
+
+---
+
+#### **2. Method Overriding**
+- A child class can override a method inherited from the parent class by defining a method with the same name.
+
+**Example: Overriding Methods**
+```javascript
+class Animal {
+    speak() {
+        console.log("Animal makes a sound.");
+    }
+}
+
+class Cat extends Animal {
+    speak() {
+        console.log("Cat meows.");
+    }
+}
+
+const cat = new Cat();
+cat.speak(); // Output: Cat meows.
+```
+
+---
+
+#### **3. Using Parent Methods in Overridden Methods**
+- A child class can still access a method from the parent class using `super.methodName()`.
+
+**Example: Combining Parent and Child Methods**
+```javascript
+class Animal {
+    speak() {
+        console.log("Animal speaks.");
+    }
+}
+
+class Parrot extends Animal {
+    speak() {
+        super.speak(); // Call parent class method
+        console.log("Parrot mimics speech.");
+    }
+}
+
+const parrot = new Parrot();
+parrot.speak();
+// Output:
+// Animal speaks.
+// Parrot mimics speech.
+```
+
+---
+
+#### **4. Adding New Methods and Properties in Child Classes**
+Child classes can extend the parent class by adding their own properties and methods.
+
+**Example: Adding Methods**
+```javascript
+class Vehicle {
+    constructor(make) {
+        this.make = make;
+    }
+
+    start() {
+        console.log(`${this.make} starts.`);
+    }
+}
+
+class Car extends Vehicle {
+    drive() {
+        console.log(`${this.make} drives.`);
+    }
+}
+
+const car = new Car("Toyota");
+car.start(); // Output: Toyota starts.
+car.drive(); // Output: Toyota drives.
+```
+
+---
+
+### **Practical Example of Class Inheritance**
+
+#### Scenario: Hierarchy of Animals
+You want to model different types of animals (e.g., dogs and birds), each with unique behaviors, while sharing common properties like a name and generic methods.
+
+```javascript
+// Parent class
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+
+    eat() {
+        console.log(`${this.name} is eating.`);
+    }
+}
+
+// Child class 1
+class Dog extends Animal {
+    speak() {
+        console.log(`${this.name} barks.`);
+    }
+}
+
+// Child class 2
+class Bird extends Animal {
+    fly() {
+        console.log(`${this.name} is flying.`);
+    }
+}
+
+const dog = new Dog("Buddy");
+dog.eat();  // Output: Buddy is eating.
+dog.speak(); // Output: Buddy barks.
+
+const bird = new Bird("Tweety");
+bird.eat();  // Output: Tweety is eating.
+bird.fly();  // Output: Tweety is flying.
+```
+
+---
+
+### **Key Rules of Class Inheritance**
+
+1. **Constructors in Child Classes**
+   - If you define a constructor in a child class, you must call `super()` before accessing `this`.
+
+**Example: Constructor in a Child Class**
+```javascript
+class Parent {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Child extends Parent {
+    constructor(name, age) {
+        super(name); // Calls the Parent constructor
+        this.age = age;
+    }
+}
+```
+
+2. **Cannot Extend Multiple Classes**
+   - JavaScript does not support multiple inheritance (a class cannot directly extend multiple classes). Mixins can be used as a workaround.
+
+---
+
+### **Extending Built-in Classes**
+
+You can extend built-in classes like `Array`, `Error`, or `Date` to customize their behavior.
+
+**Example: Extending Array**
+```javascript
+class CustomArray extends Array {
+    average() {
+        return this.reduce((acc, val) => acc + val, 0) / this.length;
+    }
+}
+
+const numbers = new CustomArray(10, 20, 30);
+console.log(numbers.average()); // Output: 20
+```
+
+**Example: Extending Error**
+```javascript
+class CustomError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "CustomError";
+    }
+}
+
+try {
+    throw new CustomError("This is a custom error!");
+} catch (error) {
+    console.log(error.name);    // Output: CustomError
+    console.log(error.message); // Output: This is a custom error!
+}
+```
+
+---
+
+### **Advantages of Class Inheritance**
+
+1. **Code Reusability**: Share common logic across multiple classes.
+2. **Logical Hierarchy**: Maintain a clear parent-child relationship.
+3. **Extensibility**: Easily extend classes to add new features.
+
+---
+
+### **Disadvantages**
+
+1. **Complexity**: Overuse of inheritance can make the code harder to understand.
+2. **Tightly Coupled**: Changes in the parent class can affect child classes unexpectedly.
+
