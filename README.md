@@ -3542,3 +3542,326 @@ interact(cat); // Output: Pet the cat.
 | `Object.prototype.toString`| Check object type based on internal tags.                | `Object.prototype.toString.call([])` returns `[object Array]`                                  |
 | `typeof`                   | Identify primitive types and functions.                 | `typeof 42 // "number"`                                                                        |
 | `constructor`              | Check the constructor property of an object.            | `obj.constructor === ClassName`                                                               |
+
+### **Mixins in JavaScript: A Detailed Guide with Examples and Interview Questions**
+
+---
+
+### **What Are Mixins?**
+
+In JavaScript, **mixins** are a way to implement multiple inheritance-like behavior. They allow you to "mix" reusable properties or methods into a class without directly extending it. Since JavaScript does not support multiple inheritance, mixins provide an alternative mechanism for sharing functionality among multiple classes.
+
+---
+
+### **Why Use Mixins?**
+
+Mixins are useful when:
+1. You want to share common functionality between multiple classes without creating a complex inheritance hierarchy.
+2. You need to add behavior to classes dynamically.
+3. You want to avoid tightly coupling classes through inheritance.
+
+---
+
+### **How Mixins Work**
+
+Mixins work by copying properties and methods from one object (or class) to another. This is typically done using the `Object.assign()` method or a custom helper function.
+
+---
+
+### **Basic Syntax**
+
+```javascript
+const Mixin = {
+    sharedMethod() {
+        console.log("Shared method executed!");
+    }
+};
+
+class MyClass {}
+Object.assign(MyClass.prototype, Mixin);
+
+const obj = new MyClass();
+obj.sharedMethod(); // Output: Shared method executed!
+```
+
+---
+
+### **Examples**
+
+#### **1. Basic Mixin Example**
+
+Here’s an example of using a mixin to add reusable functionality to multiple classes:
+
+```javascript
+const CanFly = {
+    fly() {
+        console.log(`${this.name} is flying!`);
+    }
+};
+
+const CanSwim = {
+    swim() {
+        console.log(`${this.name} is swimming!`);
+    }
+};
+
+class Bird {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Fish {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+// Add mixins to classes
+Object.assign(Bird.prototype, CanFly);
+Object.assign(Fish.prototype, CanSwim);
+
+const bird = new Bird("Sparrow");
+bird.fly(); // Output: Sparrow is flying!
+
+const fish = new Fish("Goldfish");
+fish.swim(); // Output: Goldfish is swimming!
+```
+
+---
+
+#### **2. Mixin with Shared Logic**
+
+Mixins can include shared logic and even variables:
+
+```javascript
+const Logger = {
+    log(message) {
+        console.log(`[${this.name}]: ${message}`);
+    }
+};
+
+class Device {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+Object.assign(Device.prototype, Logger);
+
+const device = new Device("Printer");
+device.log("Printing started"); // Output: [Printer]: Printing started
+```
+
+---
+
+#### **3. Using Mixins with Functions**
+
+Mixins can also be implemented using higher-order functions:
+
+```javascript
+function addLogging(targetClass) {
+    targetClass.prototype.log = function (message) {
+        console.log(`[${this.name}]: ${message}`);
+    };
+}
+
+class Server {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+addLogging(Server);
+
+const server = new Server("WebServer");
+server.log("Server is running."); // Output: [WebServer]: Server is running.
+```
+
+---
+
+#### **4. Composing Multiple Mixins**
+
+You can mix multiple behaviors into a single class:
+
+```javascript
+const CanWalk = {
+    walk() {
+        console.log(`${this.name} is walking.`);
+    }
+};
+
+const CanRun = {
+    run() {
+        console.log(`${this.name} is running.`);
+    }
+};
+
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+Object.assign(Animal.prototype, CanWalk, CanRun);
+
+const dog = new Animal("Dog");
+dog.walk(); // Output: Dog is walking.
+dog.run();  // Output: Dog is running.
+```
+
+---
+
+### **Advantages of Mixins**
+
+1. **Reusability**: You can reuse the same mixin across different classes.
+2. **Multiple Behaviors**: Unlike class inheritance, mixins allow combining multiple behaviors into a single class.
+3. **Flexibility**: Mixins allow dynamic addition of functionality to existing classes.
+
+---
+
+### **Disadvantages of Mixins**
+
+1. **Name Collisions**: If two mixins have methods with the same name, one will overwrite the other.
+2. **Readability**: Excessive use of mixins can make the code harder to understand and debug.
+3. **No Native Support for Multiple Inheritance**: Mixins are a workaround, not a true implementation of multiple inheritance.
+
+---
+
+### **Best Practices**
+
+1. **Avoid Overlapping Method Names**: Ensure that mixins have unique method names to prevent overwriting.
+2. **Keep Mixins Small**: Mixins should focus on a single responsibility to avoid complexity.
+3. **Use with Care**: Consider using composition over inheritance when mixins are required.
+
+---
+
+### **Interview Questions**
+
+#### **1. What is a mixin in JavaScript?**
+**Answer:**  
+A mixin is a reusable piece of functionality that can be added to a class or object without using inheritance. It allows multiple behaviors to be combined into a single class.
+
+---
+
+#### **2. How are mixins implemented in JavaScript?**
+**Answer:**  
+Mixins are typically implemented using `Object.assign()` to copy properties and methods from one object to another.  
+**Example:**
+```javascript
+Object.assign(TargetClass.prototype, Mixin);
+```
+
+---
+
+#### **3. What is the difference between a mixin and class inheritance?**
+**Answer:**  
+- **Mixins**: Allow combining behaviors from multiple sources into a class.
+- **Inheritance**: Establishes a parent-child relationship where the child inherits all properties and methods from the parent.
+
+---
+
+#### **4. What are the limitations of mixins in JavaScript?**
+**Answer:**  
+- Potential for method name collisions.
+- Can make the code less readable.
+- Cannot replace true multiple inheritance.
+
+---
+
+#### **5. How do you handle conflicts in mixins when two methods have the same name?**
+**Answer:**  
+You can resolve conflicts by explicitly overriding methods or using a composition function to merge mixins safely.  
+**Example:**
+```javascript
+Object.assign(TargetClass.prototype, Mixin1, Mixin2);
+TargetClass.prototype.methodName = function () {
+    // Custom resolution logic
+};
+```
+
+---
+
+#### **6. Write an example of composing multiple mixins into a single class.**
+**Answer:**
+```javascript
+const Mixin1 = {
+    method1() {
+        console.log("Method from Mixin1");
+    }
+};
+
+const Mixin2 = {
+    method2() {
+        console.log("Method from Mixin2");
+    }
+};
+
+class Example {}
+Object.assign(Example.prototype, Mixin1, Mixin2);
+
+const instance = new Example();
+instance.method1(); // Output: Method from Mixin1
+instance.method2(); // Output: Method from Mixin2
+```
+
+---
+
+#### **7. When should you use mixins over inheritance?**
+**Answer:**  
+Use mixins when:
+1. You want to add functionality to multiple unrelated classes.
+2. You need to combine multiple behaviors that do not naturally fit into a single inheritance hierarchy.
+
+---
+
+#### **8. Can you use mixins with ES6 classes?**
+**Answer:**  
+Yes, mixins can be used with ES6 classes by assigning the mixin methods to the prototype of the class using `Object.assign()`.
+
+---
+
+### **Advanced Example: Safe Composition with Mixins**
+
+Here’s a more advanced implementation of safely applying multiple mixins:
+
+```javascript
+function applyMixins(targetClass, ...mixins) {
+    mixins.forEach(mixin => {
+        Object.keys(mixin).forEach(key => {
+            if (!targetClass.prototype[key]) {
+                targetClass.prototype[key] = mixin[key];
+            } else {
+                console.warn(`Conflict: Method ${key} already exists.`);
+            }
+        });
+    });
+}
+
+const CanWalk = {
+    walk() {
+        console.log(`${this.name} is walking.`);
+    }
+};
+
+const CanRun = {
+    walk() {
+        console.log(`${this.name} is walking fast.`);
+    },
+    run() {
+        console.log(`${this.name} is running.`);
+    }
+};
+
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+applyMixins(Animal, CanWalk, CanRun);
+
+const dog = new Animal("Dog");
+dog.walk(); // Warning: Conflict: Method walk already exists.
+dog.run();  // Output: Dog is running.
+```
